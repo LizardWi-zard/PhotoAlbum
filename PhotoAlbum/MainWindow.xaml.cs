@@ -31,6 +31,7 @@ namespace PhotoAlbum
         string selectedItemPath;
         string folderPath;
         string selectedAlbum = "AllPhoto";
+        string fileSavePath = @".\SaveData.json";
 
         int selectedItemIndex;
 
@@ -41,9 +42,40 @@ namespace PhotoAlbum
         {
             albums.Add("AllPhoto", new List<int>());
 
-            var internetData = GetSavedData().Result;
+            // var internetData = GetSavedData().Result;
 
             InitializeComponent();
+
+            if (File.Exists(fileSavePath))
+            {
+                string data = File.ReadAllText(fileSavePath);
+                var json = JsonSerializer.Deserialize<ItemsToSave>(data);
+
+                try
+                {
+                    folderPath = json.FolderPath;
+
+                    FillListWithPhotos(folderPath);
+                }
+                catch (Exception ex)
+                {
+                    System.Windows.MessageBox.Show(ex.ToString());
+                }
+
+                foreach(var dir in json.VirtualDirectories.Keys)
+                {
+                    albums.Add(dir, json.VirtualDirectories[dir]);
+                }
+
+
+                AlbumListBox.ItemsSource = albums.Keys;
+                AlbumListBox.SelectedItem = "AllPhoto";
+
+                //PhotoLoadProgressBar.Visibility = Visibility.Collapsed;
+
+                AlbumListBox.Items.Refresh();
+                DrivesListBox.Items.Refresh();
+            }
         }
 
         private void RefreshDrives_Click(object sender, RoutedEventArgs e)
@@ -494,9 +526,8 @@ namespace PhotoAlbum
             itemsToSave.VirtualDirectories = virtualDirectories;
 
             var json = JsonSerializer.Serialize(itemsToSave);
-            var path = "\\bin\\Debug\\net6.0-windows\\SaveData.json";
 
-            //File.WriteAllText(path, json);
+            File.WriteAllText(fileSavePath, json);
         }
 
         private void ClearAlbum_Click(object sender, RoutedEventArgs e)
