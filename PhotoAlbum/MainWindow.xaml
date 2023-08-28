@@ -51,6 +51,14 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+        <TextBlock Name="FilesCounter"
+                   Text="Coose folder"
+                   Height="22" Width="104"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   Margin="0,182,10,0" Foreground="#F7F0FA"/>
+        
         <!--
                  SelectionChanged="PhotoListBox_SetSelectedItem"
         -->
@@ -97,6 +105,38 @@
                             
                         </Image>
                     </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListBox Name="AlbumListBox"
+                 ItemsSource="{Binding Mode=OneWay}" 
+                 Background="#F7F0FA"
+                 Height="180" Width="95"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Top"
+                 Margin="10,37,0,0"
+                 d:ItemsSource="{d:SampleData ItemCount=4}"
+                 BorderThickness="0"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="0 0 2 0"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding }"
+                               FontSize="11"
+                               Background="#FF8E75FB"
+                               Foreground="#F7F0FA" 
+                               Height="18" MinWidth="10"
+                               TextAlignment="Center">
+                    </TextBlock>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

@@ -2,28 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
-using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 using Path = System.IO.Path;
 using OpenDialogResult = System.Windows.Forms.DialogResult;
 using System.Windows.Forms;
 
 namespace PhotoAlbum
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         Dictionary<string, List<int>> albums = new Dictionary<string, List<int>>();
@@ -86,6 +72,10 @@ namespace PhotoAlbum
                 System.Windows.MessageBox.Show(ex.ToString());
             }
 
+            AlbumListBox.ItemsSource = albums.Keys;
+            AlbumListBox.SelectedItem = "AllPhoto";
+
+            AlbumListBox.Items.Refresh();
             DrivesListBox.Items.Refresh();
         }
 
@@ -128,6 +118,8 @@ namespace PhotoAlbum
                     }
                 }
             }
+
+            FilesCounter.Text = "Total images: " + bitmapPhotosList.Count().ToString();
 
             PhotoListBox.ItemsSource = bitmapPhotosList;
             PhotoListBox.Items.Refresh();
