@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media.Imaging;
-using Path = System.IO.Path;
-using OpenDialogResult = System.Windows.Forms.DialogResult;
-using System.Windows.Forms;
 using System.Windows.Controls;
+using System.Windows.Forms;
+using System.Windows.Media.Imaging;
+using OpenDialogResult = System.Windows.Forms.DialogResult;
+using Path = System.IO.Path;
 
 namespace PhotoAlbum
 {
@@ -280,6 +280,10 @@ namespace PhotoAlbum
         {
             //TODO: switch case selection of element to off
             AlbumNameInput.Visibility = Visibility.Collapsed;
+            AddToAlbumListMenu.Visibility = Visibility.Collapsed;
+            RemoveFromAlbumListMenu.Visibility = Visibility.Collapsed;
+
+            AddToAlbumFinder_TextBox.Text = String.Empty;
         }
 
         private void SelectedAlbumChanged(object sender, SelectionChangedEventArgs e)
@@ -301,6 +305,129 @@ namespace PhotoAlbum
 
             PhotoListBox.ItemsSource = imageList;
             PhotoListBox.Items.Refresh();
+        }
+
+        private void DeletePhoto_Ckick(object sender, RoutedEventArgs e)
+        {
+            string path = selectedItemPath;
+
+            List<BitmapImage> imageList = new List<BitmapImage>();
+
+            imageList = (List<BitmapImage>)PhotoListBox.ItemsSource;
+
+            foreach (var item in PhotoListBox.SelectedItems)
+            {
+                var id = PhotoListBox.Items.IndexOf(item);
+                imageList.RemoveAt(id);
+            }
+
+            PhotoListBox.ItemsSource = imageList;
+
+            //PhotoList.Items.Remove(PhotoList.Items[deleteItemIndex]);
+
+            PhotoListBox.Items.Refresh();
+
+            selectedItemPath = String.Empty; // нет настоящего пути файла, надо сохранять в список
+            PhotoListBox.SelectedItem = null;
+
+            //File.Delete(path); // TODO: Изза битмапа нет пути для удаления файла
+
+            FilesCounter.Text = "Total images: " + bitmapPhotosList.Count().ToString();
+        }
+
+        private void ShowAddAlbumMenu_Click(object sender, RoutedEventArgs e)
+        {
+            AddToAlbumListMenu.Visibility = Visibility.Visible;
+            AddToAlbumSelector_ListBox.ItemsSource = albums.Keys.Where(x => x != "AllPhoto" && x != AlbumListBox.SelectedItem.ToString());
+            AddToAlbumFinder_TextBox.Focus();
+        }
+
+        private void ShowRemoveAlbumMenu_Click(object sender, RoutedEventArgs e)
+        {
+            RemoveFromAlbumListMenu.Visibility = Visibility.Visible;
+            RemoveFromAlbumSelector_ListBox.ItemsSource = albums.Keys.Where(x => x != "AllPhoto");
+            RemoveFromAlbumFinder_TextBox.Focus();
+        }
+
+        private void AlbumNameSearch(object sender, TextChangedEventArgs e)
+        {
+            string addInput = AddToAlbumFinder_TextBox.Text;
+            string removeInput = RemoveFromAlbumFinder_TextBox.Text;
+
+            if (String.IsNullOrWhiteSpace(addInput))
+            {
+                AddToAlbumSelector_ListBox.ItemsSource = albums.Keys.Where(x => x != "AllPhoto");
+                AddToAlbumSelector_ListBox.Items.Refresh();
+            }
+            else
+            {
+                foreach (var item in albums.Keys)
+                {
+                    AddToAlbumSelector_ListBox.ItemsSource = albums.Keys.Where(x => x.Contains(addInput, StringComparison.OrdinalIgnoreCase) && x != "AllPhoto");
+                }
+            }
+
+            if (String.IsNullOrWhiteSpace(removeInput))
+            {
+                RemoveFromAlbumSelector_ListBox.ItemsSource = albums.Keys.Where(x => x != "AllPhoto");
+                RemoveFromAlbumSelector_ListBox.Items.Refresh();
+            }
+            else
+            {
+                foreach (var item in albums.Keys)
+                {
+                    RemoveFromAlbumSelector_ListBox.ItemsSource = albums.Keys.Where(x => x.Contains(removeInput, StringComparison.OrdinalIgnoreCase) && x != "AllPhoto");
+                }
+            }
+        }
+
+        private void AddToSelectedAlbum_Click(object sender, RoutedEventArgs e)
+        {
+            AddToAlbumListMenu.Visibility = Visibility.Collapsed;
+
+            foreach (string albumName in AddToAlbumSelector_ListBox.SelectedItems)
+            {
+                foreach (BitmapImage item in PhotoListBox.SelectedItems)
+                {
+                    int photoID = bitmapPhotosList.IndexOf(item);
+                    albums[albumName].Add(photoID);
+                }
+            }
+        }
+
+        private void RemoveFromSelectedAlbum_Click(object sender, RoutedEventArgs e)
+        {
+            RemoveFromAlbumListMenu.Visibility = Visibility.Collapsed;
+
+            List<BitmapImage> imageList = new List<BitmapImage>();
+
+            foreach (string albumName in RemoveFromAlbumSelector_ListBox.SelectedItems)
+            {
+                foreach (BitmapImage item in PhotoListBox.SelectedItems)
+                {
+                    int photoID = bitmapPhotosList.IndexOf(item);
+                    albums[albumName].Remove(photoID);
+                }
+            }
+
+            foreach (string albumName in RemoveFromAlbumSelector_ListBox.SelectedItems)
+            {
+                if (selectedAlbum == albumName)
+                {
+                    imageList.Clear();
+
+
+                    for (int i = 0; i < albums[selectedAlbum].Count(); i++)
+                    {
+                        int index = albums[selectedAlbum][i];
+
+                        imageList.Add(bitmapPhotosList[index]);
+                    }
+
+                    PhotoListBox.ItemsSource = imageList;
+                    PhotoListBox.Items.Refresh();
+                }
+            }
         }
     }
 }

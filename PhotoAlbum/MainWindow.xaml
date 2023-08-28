@@ -90,7 +90,7 @@
                   BorderThickness="0"
                   Foreground="#F7F0FA"
                   Background="#F7F0FA"/>
-        
+
         <!--
                  SelectionChanged="PhotoListBox_SetSelectedItem"
         -->
@@ -120,7 +120,8 @@
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Padding" Value="0"/>
-                    <Setter Property="Margin" Value="-1"/></Style>
+                    <Setter Property="Margin" Value="-1"/>
+                </Style>
             </ListBox.ItemContainerStyle>
 
             <ListBox.ItemTemplate>
@@ -134,7 +135,16 @@
                                Source="{Binding }"
                                Stretch="Fill"
                                RenderOptions.BitmapScalingMode="LowQuality">
-                            
+                            <Image.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Delete photo"
+                                              Click="DeletePhoto_Ckick"/>
+                                    <MenuItem Header="Add to album"
+                                              Click="ShowAddAlbumMenu_Click"/>
+                                    <MenuItem Header="Remove from album"
+                                              Click="ShowRemoveAlbumMenu_Click"/>
+                                </ContextMenu>
+                            </Image.ContextMenu>
                         </Image>
                     </Border>
                 </DataTemplate>
@@ -231,7 +241,7 @@
                     Background="#F7F0FA"
                     HorizontalAlignment="Left"
                     BorderThickness="0" />
-            
+
             <Button Name="Medium"
                     Click="SetMediumSize_Click"
                     Height="30" Width="30"
@@ -278,16 +288,116 @@
             </Border>
         </Grid>
 
+        <Grid x:Name="AddToAlbumListMenu" Visibility="Collapsed">
+            <Grid Background="#020202" Opacity="0.5"/>
+            <Border Width="350"
+                    Height="250"
+                    Background="#F7F0FA" 
+                    BorderBrush="#FF4E4187" 
+                    BorderThickness="2"  
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center">
+                <StackPanel>
+                    <TextBlock Margin="5" 
+                               Text="Enter the name of album:"/>
+
+                    <TextBox Name="AddToAlbumFinder_TextBox"
+                             TextChanged="AlbumNameSearch"
+                             MinWidth="150" 
+                             Background="#FFFFF7EF" 
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Center"/>
+
+                    <ListBox Name="AddToAlbumSelector_ListBox"
+                             ItemsSource="{Binding Mode=OneWay}" 
+                             Height="155" 
+                             Background="#FFFFF7EF" 
+                             Margin="5 10 5 5"
+                             HorizontalAlignment="Stretch">
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}"
+                                           Margin="0"
+                                           FontSize="14"
+                                           Background="#FF8E75FB"
+                                           Foreground="#F7F0FA">
+                                </TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Bottom"
+                                HorizontalAlignment="Center">
+                        <Button Margin="5" 
+                                Content="Apply"  
+                                Click="AddToSelectedAlbum_Click"
+                                Background="#F7F0FA"/>
+                        <Button Margin="5" 
+                                Content="Back" 
+                                Click="GoBack_Click"
+                                Background="#F7F0FA"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Grid x:Name="RemoveFromAlbumListMenu" Visibility="Collapsed">
+            <Grid Background="#020202" Opacity="0.5"/>
+            <Border Width="350"
+                    Height="250"
+                    Background="#F7F0FA" 
+                    BorderBrush="#FF4E4187" 
+                    BorderThickness="2"  
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center">
+                <StackPanel>
+                    <TextBlock Margin="5" 
+                               Text="Enter the name of album:"/>
+
+                    <TextBox MinWidth="150" 
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Center" 
+                             Name="RemoveFromAlbumFinder_TextBox"
+                             Background="#F7F0FA"
+                             TextChanged="AlbumNameSearch"/>
+
+                    <ListBox Name="RemoveFromAlbumSelector_ListBox"
+                             ItemsSource="{Binding Mode=OneWay}" 
+                             Height="155" 
+                             Margin="5 10 5 5"
+                             HorizontalAlignment="Stretch"
+                             Background="#F7F0FA">
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}"
+                                           Margin="0"
+                                           FontSize="14"
+                                           Background="#FF8E75FB"
+                                           Foreground="#F7F0FA">
+                                </TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Bottom"
+                                HorizontalAlignment="Center">
+                        <Button Margin="5" 
+                                Content="Apply"  
+                                Click="RemoveFromSelectedAlbum_Click"
+                                Background="#F7F0FA"/>
+                        <Button Margin="5" 
+                                Content="Back" 
+                                Click="GoBack_Click"
+                                Background="#F7F0FA"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+
     </Grid>
 </Window>
-
-<!--<Image.ContextMenu>
-    <ContextMenu>
-        <MenuItem Header="Delete photo"
-                                              Click="DeletePhoto_Ckick"/>
-        <MenuItem Header="Add to album"
-                                              Click="ShowAddAlbumMenu_Click"/>
-        <MenuItem Header="Remove from album"
-                                              Click="ShowRemoveAlbumMenu_Click"/>
-    </ContextMenu>
-    </Image.ContextMenu> -->
