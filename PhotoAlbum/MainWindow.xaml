@@ -12,7 +12,8 @@
         FontFamily="Segoe UI">
 
     <Grid  Background="#6247AA">
-        <Button Content="Refresh drives"
+        <Button Click="RefreshDrives_Click"
+                Content="Refresh drives"
                 Background="#F7F0FA"
                 Height="22" Width="104"
                 HorizontalAlignment="Right"
@@ -21,6 +22,7 @@
                 BorderThickness="0"/>
 
         <ListBox Name="DrivesListBox" 
+                 ItemsSource="{Binding Mode=OneWay}" 
                  Background="#F7F0FA"
                  Height="140" Width="104"
                  HorizontalAlignment="Right"
@@ -39,6 +41,8 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Button Name= "DriverButton"
+                            Click="SetDirecrtory_Click"
+                            Content="{Binding}"
                             Background="#FF8E75FB"
                             Width="100"
                             HorizontalAlignment="Center" 
@@ -47,7 +51,9 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
+        <!--
+                 SelectionChanged="PhotoListBox_SetSelectedItem"
+        -->
         <ListBox x:Name="PhotoListBox"
                  ItemsSource="{Binding Mode=OneWay}" 
                  Background="#F7F0FA"
@@ -65,11 +71,16 @@
                                Margin="0"/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
+            <!--
 
+                    <EventSetter Event="PreviewMouseRightButtonDown"
+                         Handler="OnListViewItemPreviewMouseRightButtonDown" />
+
+                -->
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Padding" Value="0"/>
-                    <Setter Property="Margin" Value="-1"/> </Style>
+                    <Setter Property="Margin" Value="-1"/></Style>
             </ListBox.ItemContainerStyle>
 
             <ListBox.ItemTemplate>
@@ -78,8 +89,12 @@
                             Margin="0 0 0 0" >
 
                         <Image HorizontalAlignment="Left"
+                               Width="{Binding ElementName=PhotoSize_Slider, Path=Value}" 
+                               Height="{Binding ElementName=PhotoSize_Slider, Path=Value}"
+                               Source="{Binding }"
                                Stretch="Fill"
                                RenderOptions.BitmapScalingMode="LowQuality">
+                            
                         </Image>
                     </Border>
                 </DataTemplate>
@@ -88,3 +103,14 @@
 
     </Grid>
 </Window>
+
+<!--<Image.ContextMenu>
+    <ContextMenu>
+        <MenuItem Header="Delete photo"
+                                              Click="DeletePhoto_Ckick"/>
+        <MenuItem Header="Add to album"
+                                              Click="ShowAddAlbumMenu_Click"/>
+        <MenuItem Header="Remove from album"
+                                              Click="ShowRemoveAlbumMenu_Click"/>
+    </ContextMenu>
+    </Image.ContextMenu> -->
