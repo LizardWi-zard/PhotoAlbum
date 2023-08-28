@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -261,6 +262,14 @@ namespace PhotoAlbum
 
             AlbumListBox.ItemsSource = albums.Keys;
             AlbumListBox.Items.Refresh();
+
+            AddToAlbumSelector_ListBox.ItemsSource = albums.Keys.Where(x => x != "AllPhoto");
+            AddToAlbumSelector_ListBox.Items.Refresh();
+
+            RemoveFromAlbumSelector_ListBox.ItemsSource = albums.Keys.Where(x => x != "AllPhoto");
+            RemoveFromAlbumSelector_ListBox.Items.Refresh();
+
+            AddToAlbumFinder_TextBox.Text = String.Empty;
         }
 
         private void AddAlbum(string albumName)
@@ -396,6 +405,11 @@ namespace PhotoAlbum
                     int photoID = bitmapPhotosList.IndexOf(item);
                     albums[albumName].Add(photoID);
                 }
+
+                if (virtualDirectories.Keys.Contains(albumName))
+                {
+                    SaveAsFile();
+                }
             }
         }
 
@@ -411,6 +425,11 @@ namespace PhotoAlbum
                 {
                     int photoID = bitmapPhotosList.IndexOf(item);
                     albums[albumName].Remove(photoID);
+                }
+
+                if (virtualDirectories.Keys.Contains(albumName))
+                {
+                    SaveAsFile();
                 }
             }
 
@@ -445,6 +464,34 @@ namespace PhotoAlbum
             Trace.WriteLine("Preview MouseRightButtonDown");
 
             e.Handled = true;
+        }
+
+        private void SaveAsFile()
+        {
+
+            Dictionary<string, List<int>> albumsToSave = new Dictionary<string, List<int>>();
+
+            foreach (var album in albums.Keys)
+            {
+                foreach (var al in virtualDirectories.Keys)
+                {
+                    if (album == al)
+                    {
+                        virtualDirectories[al] = albums[album];
+                        albumsToSave.Add(al, albums[al]);
+                    }
+                }
+            }
+
+            ItemsToSave itemsToSave = new ItemsToSave();
+
+            itemsToSave.FolderPath = folderPath;
+            itemsToSave.VirtualDirectories = virtualDirectories;
+
+            var json = JsonSerializer.Serialize(itemsToSave);
+            var path = "\\bin\\Debug\\net6.0-windows\\SaveData.json";
+
+            File.WriteAllText(path, json);
         }
     }
 }
