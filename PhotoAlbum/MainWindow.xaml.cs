@@ -491,7 +491,25 @@ namespace PhotoAlbum
             var json = JsonSerializer.Serialize(itemsToSave);
             var path = "\\bin\\Debug\\net6.0-windows\\SaveData.json";
 
-            File.WriteAllText(path, json);
+            //File.WriteAllText(path, json);
+        }
+
+        private void ClearAlbum_Click(object sender, RoutedEventArgs e)
+        {
+            albums[selectedAlbum].Clear();
+        }
+
+        private void DeleteAlbum_Click(object sender, RoutedEventArgs e)
+        {
+            List<string> activeAlbums = new List<string>();
+
+            activeAlbums = albums.Keys.Where(x => x != selectedAlbum).ToList();
+
+            selectedAlbum = "AllPhoto";
+
+            AlbumListBox.SelectedItem = "AllPhoto";
+            AlbumListBox.ItemsSource = activeAlbums;
+            AlbumListBox.Items.Refresh();
         }
     }
 }

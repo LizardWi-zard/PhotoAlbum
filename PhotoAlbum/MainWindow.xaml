@@ -177,6 +177,13 @@
                                Foreground="#F7F0FA" 
                                Height="18" MinWidth="10"
                                TextAlignment="Center">
+
+                        <TextBlock.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Clear album" Click="ClearAlbum_Click"/>
+                                <MenuItem Header="Delete album" Click="DeleteAlbum_Click"/>
+                            </ContextMenu>
+                        </TextBlock.ContextMenu>
                     </TextBlock>
                 </DataTemplate>
             </ListBox.ItemTemplate>
