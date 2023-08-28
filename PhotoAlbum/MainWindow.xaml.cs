@@ -230,5 +230,13 @@ namespace PhotoAlbum
         {
             PhotoSize_Slider.Value = bigPhotoSize;
         }
+
+        private void CalculateImageSize(object sender, SizeChangedEventArgs e)
+        {
+            PhotoSize_Slider.Maximum = (PhotoListBox.ActualWidth / 2) - 10;
+
+            bigPhotoSize = (PhotoListBox.ActualWidth / 5) - 15;
+            mediumPhotoSize = (PhotoListBox.ActualWidth / 9) - 10;
+        }
     }
 }

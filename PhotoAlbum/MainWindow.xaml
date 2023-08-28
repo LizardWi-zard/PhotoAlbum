@@ -9,7 +9,8 @@
         Width="991" MinWidth="584" 
         MinHeight="460"
         Background="#f2f2f2"
-        FontFamily="Segoe UI">
+        FontFamily="Segoe UI"
+        SizeChanged="CalculateImageSize">
 
     <Grid  Background="#6247AA">
         <Button Click="RefreshDrives_Click"
