@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using OpenDialogResult = System.Windows.Forms.DialogResult;
 using Path = System.IO.Path;
@@ -25,6 +27,8 @@ namespace PhotoAlbum
         string selectedItemPath;
         string folderPath;
         string selectedAlbum = "AllPhoto";
+
+        int selectedItemIndex;
 
         double mediumPhotoSize = 158.5;
         double bigPhotoSize = 315;
@@ -428,6 +432,19 @@ namespace PhotoAlbum
                     PhotoListBox.Items.Refresh();
                 }
             }
+        }
+
+        private void PhotoListBox_SetSelectedItem(object sender, SelectionChangedEventArgs e)
+        {
+            selectedItemPath = ((System.Windows.Controls.ListBox)sender).SelectedItem?.ToString() ?? String.Empty;
+            selectedItemIndex = ((System.Windows.Controls.ListBox)sender).SelectedIndex;
+        }
+
+        private void OnListViewItemPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Trace.WriteLine("Preview MouseRightButtonDown");
+
+            e.Handled = true;
         }
     }
 }

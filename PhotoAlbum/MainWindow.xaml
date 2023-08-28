@@ -91,9 +91,6 @@
                   Foreground="#F7F0FA"
                   Background="#F7F0FA"/>
 
-        <!--
-                 SelectionChanged="PhotoListBox_SetSelectedItem"
-        -->
         <ListBox x:Name="PhotoListBox"
                  ItemsSource="{Binding Mode=OneWay}" 
                  Background="#F7F0FA"
@@ -101,6 +98,9 @@
                  VerticalContentAlignment="Top"
                  Margin="110,37,119,10" 
                  SelectionMode="Multiple"
+                 SelectionChanged="PhotoListBox_SetSelectedItem"
+                 local:ListBoxSelector.Enabled="True"
+                 
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  d:ItemsSource="{d:SampleData ItemCount=20}"
                  BorderThickness="0">
@@ -111,16 +111,14 @@
                                Margin="0"/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
-            <!--
-
-                    <EventSetter Event="PreviewMouseRightButtonDown"
-                         Handler="OnListViewItemPreviewMouseRightButtonDown" />
-
-                -->
+            
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Padding" Value="0"/>
                     <Setter Property="Margin" Value="-1"/>
+
+                    <EventSetter Event="PreviewMouseRightButtonDown"
+                         Handler="OnListViewItemPreviewMouseRightButtonDown"/>
                 </Style>
             </ListBox.ItemContainerStyle>
 
