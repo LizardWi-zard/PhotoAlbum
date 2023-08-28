@@ -247,6 +247,37 @@
                     BorderThickness="0"/>
         </Grid>
 
+        <Grid x:Name="AlbumNameInput" Visibility="Collapsed">
+            <Grid Background="#020202" Opacity="0.5"/>
+            <Border MinWidth="250"
+                    Background="#F7F0FA"
+                    BorderBrush="#FF4E4187" 
+                    BorderThickness="2"  
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center">
+                <StackPanel>
+                    <TextBlock Margin="5" 
+                               Text="Enter the name of album:"/>
+                    <TextBox Name="AlbumNameInput_TextBox"
+                             MinWidth="150" 
+                             HorizontalAlignment="Center" 
+                             VerticalAlignment="Center"
+                             Background="#F7F0FA"/>
+                    <StackPanel Orientation="Horizontal" 
+                                HorizontalAlignment="Center">
+                        <Button Margin="5" 
+                                Content="Apply"  
+                                Background="#F7F0FA"
+                                Click="ApplyName_Click"/>
+                        <Button Margin="5" 
+                                Content="Back" 
+                                Click="GoBack_Click"
+                                Background="#F7F0FA"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+
     </Grid>
 </Window>
 

@@ -14,6 +14,7 @@ namespace PhotoAlbum
     public partial class MainWindow : Window
     {
         Dictionary<string, List<int>> albums = new Dictionary<string, List<int>>();
+        Dictionary<string, List<int>> virtualDirectories = new Dictionary<string, List<int>>();
 
         List<DriveInfo> readyDrives = new List<DriveInfo>();
         List<BitmapImage> bitmapPhotosList = new List<BitmapImage>();
@@ -242,6 +243,43 @@ namespace PhotoAlbum
 
         private void AddAlbum_Click(object sender, RoutedEventArgs e)
         {
+            AlbumNameInput.Visibility = Visibility.Visible;
+            AlbumNameInput_TextBox.Text = String.Empty;
+            AlbumNameInput_TextBox.Focus();
+        }
+
+        private void ApplyName_Click(object sender, RoutedEventArgs e)
+        {
+            AlbumNameInput.Visibility = Visibility.Collapsed;
+
+            String input = AlbumNameInput_TextBox.Text;
+            AddAlbum(input);
+
+            AlbumListBox.ItemsSource = albums.Keys;
+            AlbumListBox.Items.Refresh();
+        }
+
+        private void AddAlbum(string albumName)
+        {
+            try
+            {
+                albums.Add(albumName, new List<int>());
+                virtualDirectories.Add(albumName, new List<int>());
+            }
+            catch (ArgumentException)
+            {
+                System.Windows.MessageBox.Show("Album with this name already exist");
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void GoBack_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: switch case selection of element to off
+            AlbumNameInput.Visibility = Visibility.Collapsed;
         }
 
         private void SelectedAlbumChanged(object sender, SelectionChangedEventArgs e)
