@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -37,6 +40,8 @@ namespace PhotoAlbum
         public MainWindow()
         {
             albums.Add("AllPhoto", new List<int>());
+
+            var internetData = GetSavedData().Result;
 
             InitializeComponent();
         }
@@ -510,6 +515,22 @@ namespace PhotoAlbum
             AlbumListBox.SelectedItem = "AllPhoto";
             AlbumListBox.ItemsSource = activeAlbums;
             AlbumListBox.Items.Refresh();
+        }
+
+        async Task<SavedDataResponse> GetSavedData()
+        {
+            using var client = new HttpClient();
+
+            var result = await client.GetAsync("https://localhost:7141/Albums").ConfigureAwait(false);
+
+            return await result.Content.ReadFromJsonAsync<SavedDataResponse>();
+        }
+
+        class SavedDataResponse
+        {
+            public string FolderPath { get; set; }
+
+            public Dictionary<string, List<int>> VirtualDirectories { get; set; }
         }
     }
 }
