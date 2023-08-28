@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 using Path = System.IO.Path;
 using OpenDialogResult = System.Windows.Forms.DialogResult;
 using System.Windows.Forms;
+using System.Windows.Controls;
 
 namespace PhotoAlbum
 {
@@ -237,6 +238,31 @@ namespace PhotoAlbum
 
             bigPhotoSize = (PhotoListBox.ActualWidth / 5) - 15;
             mediumPhotoSize = (PhotoListBox.ActualWidth / 9) - 10;
+        }
+
+        private void AddAlbum_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void SelectedAlbumChanged(object sender, SelectionChangedEventArgs e)
+        {
+            List<BitmapImage> imageList = new List<BitmapImage>();
+
+            selectedAlbum = ((System.Windows.Controls.ListBox)sender).SelectedItem?.ToString() ?? String.Empty;
+
+            foreach (var item in albums[selectedAlbum])
+            {
+                imageList.Add(bitmapPhotosList[item]);
+            }
+
+            var place = directories.FirstOrDefault(str => str.EndsWith(selectedAlbum, StringComparison.OrdinalIgnoreCase)) ?? "Virtual album";
+
+            ChosenAlbum_TextBlock.Text = "Chosen album: \"" + selectedAlbum + "\"";
+            ChosenAlbumPath_TextBlock.Text = "Folder place: " + place;
+            FilesInAlbumCounter.Text = "In this album: " + albums[selectedAlbum].Count();
+
+            PhotoListBox.ItemsSource = imageList;
+            PhotoListBox.Items.Refresh();
         }
     }
 }

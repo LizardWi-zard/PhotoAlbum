@@ -143,6 +143,7 @@
 
         <ListBox Name="AlbumListBox"
                  ItemsSource="{Binding Mode=OneWay}" 
+                 SelectionChanged="SelectedAlbumChanged"
                  Background="#F7F0FA"
                  Height="180" Width="95"
                  HorizontalAlignment="Left"
@@ -172,6 +173,43 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+        <Button Click="AddAlbum_Click"
+                Content="Add album"
+                Background="#F7F0FA"
+                Height="22" Width="95"   
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top"
+                Margin="10,10,0,0"
+                BorderThickness="0"/>
+
+        <Grid Height="22"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Margin="110,10,0,0" >
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Name="ChosenAlbum_TextBlock"
+                       Grid.Column="0"
+                       Text="Chosen album: None"
+                       Height="22"
+                       Margin="0 0 10 0"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       Foreground="#F7F0FA"/>
+
+            <TextBlock Name="ChosenAlbumPath_TextBlock"
+                       Grid.Column="1"
+                       Text="Chosen folder: None"
+                       Height="22"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       Foreground="#F7F0FA"/>
+        </Grid>
 
         <Slider x:Name="PhotoSize_Slider"
                 Minimum="50" Maximum="585"
