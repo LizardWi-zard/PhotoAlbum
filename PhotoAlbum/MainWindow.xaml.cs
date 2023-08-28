@@ -24,6 +24,9 @@ namespace PhotoAlbum
         string folderPath;
         string selectedAlbum = "AllPhoto";
 
+        double mediumPhotoSize = 158.5;
+        double bigPhotoSize = 315;
+
         public MainWindow()
         {
             albums.Add("AllPhoto", new List<int>());
@@ -211,6 +214,21 @@ namespace PhotoAlbum
             {
                 AlbumListBox.ItemsSource = albums.Keys;
             }
+        }
+
+        private void SetSmallSize_Click(object sender, RoutedEventArgs e)
+        {
+            PhotoSize_Slider.Value = PhotoSize_Slider.Minimum;
+        }
+
+        private void SetMediumSize_Click(object sender, RoutedEventArgs e)
+        {
+            PhotoSize_Slider.Value = mediumPhotoSize;
+        }
+
+        private void SetBigSize_Click(object sender, RoutedEventArgs e)
+        {
+            PhotoSize_Slider.Value = bigPhotoSize;
         }
     }
 }
