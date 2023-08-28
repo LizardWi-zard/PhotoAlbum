@@ -153,5 +153,64 @@ namespace PhotoAlbum
                 return null;
             }
         }
+
+        private void AddPictures_Click(object sender, RoutedEventArgs e)
+        {
+            List<BitmapImage> imageList = new List<BitmapImage>();
+
+            imageList = (List<BitmapImage>)PhotoListBox.ItemsSource;
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = true;
+
+            try
+            {
+                if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    foreach (string file in openFileDialog.FileNames)
+                    {
+                        var fileName = Path.GetFileName(file);
+                        var path = Path.Combine(folderPath, fileName);
+                        File.Copy(file, path);
+                        imageList.Add(ConvertFileToBitmapImage(file));
+                    }
+                }
+            }
+            catch (IOException)
+            {
+                System.Windows.MessageBox.Show("File already exist");
+            }
+            catch (ArgumentNullException)
+            {
+                System.Windows.MessageBox.Show("Open the folder where you want to add the image first");
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.ToString());
+            }
+
+            FilesCounter.Text = "Total images: " + bitmapPhotosList.Count().ToString();
+
+            PhotoListBox.ItemsSource = imageList;
+            PhotoListBox.Items.Refresh();
+        }
+
+        private void HideEmptyFolders(object sender, RoutedEventArgs e)
+        {
+            List<string> activeAlbums = new List<string>();
+
+            if (FolderApearence_RadioButton.IsChecked == true)
+            {
+
+                activeAlbums = albums.Keys.Where(x => albums[x].Count() != 0 || x == "AllPhoto").ToList();
+
+                AlbumListBox.SelectedItem = "AllPhoto";
+                AlbumListBox.ItemsSource = activeAlbums;
+            }
+            else
+            {
+                AlbumListBox.ItemsSource = albums.Keys;
+            }
+        }
     }
 }

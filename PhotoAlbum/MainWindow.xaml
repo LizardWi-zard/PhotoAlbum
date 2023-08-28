@@ -57,7 +57,38 @@
                    Height="22" Width="104"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Top"
-                   Margin="0,182,10,0" Foreground="#F7F0FA"/>
+                   Margin="0,182,10,0" 
+                   Foreground="#F7F0FA"/>
+
+        <TextBlock Name="FilesInAlbumCounter"
+                   Height="22" Width="104"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   Margin="0,204,10,0" 
+                   Foreground="#F7F0FA"/>
+
+        <Button Click="AddPictures_Click"
+                Content="AddPictures"
+                Background="#F7F0FA"
+                Height="22" Width="104"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,226,10,0"
+                BorderThickness="0"/>
+
+        <CheckBox Name="FolderApearence_RadioButton"
+                  Height="22" Width="104"
+                  VerticalContentAlignment="Center"
+                  Checked="HideEmptyFolders"
+                  Unchecked="HideEmptyFolders"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Top"
+                  Margin="0,253,10,0"
+                  Content="Hide empty folders"
+                  FontSize="10"
+                  BorderThickness="0"
+                  Foreground="#F7F0FA"
+                  Background="#F7F0FA"/>
         
         <!--
                  SelectionChanged="PhotoListBox_SetSelectedItem"
