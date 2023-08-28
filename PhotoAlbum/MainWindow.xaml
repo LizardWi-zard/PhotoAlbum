@@ -5,8 +5,86 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PhotoAlbum"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" 
+        Width="991" MinWidth="584" 
+        MinHeight="460"
+        Background="#f2f2f2"
+        FontFamily="Segoe UI">
+
+    <Grid  Background="#6247AA">
+        <Button Content="Refresh drives"
+                Background="#F7F0FA"
+                Height="22" Width="104"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,10,10,0"
+                BorderThickness="0"/>
+
+        <ListBox Name="DrivesListBox" 
+                 Background="#F7F0FA"
+                 Height="140" Width="104"
+                 HorizontalAlignment="Right"
+                 VerticalAlignment="Top"
+                 Margin="0,37,10,0" 
+                 BorderThickness="0"
+                 d:ItemsSource="{d:SampleData ItemCount=5}">
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="0"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Button Name= "DriverButton"
+                            Background="#FF8E75FB"
+                            Width="100"
+                            HorizontalAlignment="Center" 
+                            Foreground="#F7F0FA"
+                            BorderThickness="0"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListBox x:Name="PhotoListBox"
+                 ItemsSource="{Binding Mode=OneWay}" 
+                 Background="#F7F0FA"
+                 HorizontalContentAlignment="Left"
+                 VerticalContentAlignment="Top"
+                 Margin="110,37,119,10" 
+                 SelectionMode="Multiple"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 d:ItemsSource="{d:SampleData ItemCount=20}"
+                 BorderThickness="0">
+
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal"
+                               Margin="0"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="-1"/> </Style>
+            </ListBox.ItemContainerStyle>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="#a06cd5"
+                            Margin="0 0 0 0" >
+
+                        <Image HorizontalAlignment="Left"
+                               Stretch="Fill"
+                               RenderOptions.BitmapScalingMode="LowQuality">
+                        </Image>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
     </Grid>
 </Window>
