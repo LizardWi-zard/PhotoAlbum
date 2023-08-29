@@ -403,6 +403,23 @@
             </Border>
         </Grid>
 
+        <Grid Name="PhotoLoadWindow" Visibility="Collapsed">
+            <Grid Background="#020202" Opacity="0.5"/>
+
+            <Border Width="250" Height="60"
+                    Background="#FFFFF7EF" 
+                    BorderBrush="#FF4E4187" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center"
+                    BorderThickness="2">
+
+                <TextBlock Margin="5"
+                           FontSize="18"
+                           TextAlignment="Center"
+                           Text="Loading photos"/>
+
+            </Border>
+        </Grid>
 
     </Grid>
 </Window>

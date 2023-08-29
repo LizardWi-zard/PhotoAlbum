@@ -48,6 +48,8 @@ namespace PhotoAlbum
 
             if (File.Exists(fileSavePath))
             {
+                PhotoLoadWindow.Visibility = Visibility.Visible;
+
                 string data = File.ReadAllText(fileSavePath);
                 var json = JsonSerializer.Deserialize<ItemsToSave>(data);
 
@@ -71,7 +73,7 @@ namespace PhotoAlbum
                 AlbumListBox.ItemsSource = albums.Keys;
                 AlbumListBox.SelectedItem = "AllPhoto";
 
-                //PhotoLoadProgressBar.Visibility = Visibility.Collapsed;
+                PhotoLoadWindow.Visibility = Visibility.Collapsed;
 
                 AlbumListBox.Items.Refresh();
             }
@@ -119,11 +121,14 @@ namespace PhotoAlbum
                 }
 
                 FillListWithPhotos(folderPath);
+
             }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(ex.ToString());
             }
+            
+            PhotoLoadWindow.Visibility = Visibility.Collapsed;
 
             AlbumListBox.ItemsSource = albums.Keys;
             AlbumListBox.SelectedItem = "AllPhoto";
@@ -134,6 +139,8 @@ namespace PhotoAlbum
 
         private void FillListWithPhotos(string directoryPath)
         {
+            PhotoLoadWindow.Visibility = Visibility.Visible;
+
             List<string> imageList = new List<string>();
             List<Byte[]> photosInBytes = new List<Byte[]>();
 
