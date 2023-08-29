@@ -74,11 +74,17 @@ namespace PhotoAlbum
                 //PhotoLoadProgressBar.Visibility = Visibility.Collapsed;
 
                 AlbumListBox.Items.Refresh();
-                DrivesListBox.Items.Refresh();
             }
+
+            UpdateDrivesInfo();
         }
 
         private void RefreshDrives_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateDrivesInfo();
+        }
+
+        private void UpdateDrivesInfo()
         {
             readyDrives.Clear();
 
