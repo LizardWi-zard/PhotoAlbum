@@ -40,7 +40,7 @@ namespace PhotoAlbum
 
         public MainWindow()
         {
-            albums.Add("AllPhoto", new List<int>());
+            AddAlbum("AllPhoto");
 
             // var internetData = GetSavedData().Result;
 
@@ -66,7 +66,13 @@ namespace PhotoAlbum
 
                 foreach(var dir in json.VirtualDirectories.Keys)
                 {
-                    albums.Add(dir, json.VirtualDirectories[dir]);
+
+                    if (dir != "AllPhoto")
+                    {
+                        AddAlbum(dir);
+                    }
+                    
+                    albums[dir] = json.VirtualDirectories[dir];
                 }
 
 
@@ -120,6 +126,8 @@ namespace PhotoAlbum
                     folderPath = openFolderDialog.SelectedPath;
                 }
 
+                ClearAllLists();
+
                 FillListWithPhotos(folderPath);
 
             }
@@ -135,6 +143,19 @@ namespace PhotoAlbum
 
             AlbumListBox.Items.Refresh();
             DrivesListBox.Items.Refresh();
+        }
+
+
+        private void ClearAllLists()
+        {
+            albums.Clear();
+            virtualDirectories.Clear();
+            AddAlbum("AllPhoto");
+
+            bitmapPhotosList.Clear();
+            directories.Clear();
+            directoriesNames.Clear();
+
         }
 
         private void FillListWithPhotos(string directoryPath)
@@ -178,6 +199,8 @@ namespace PhotoAlbum
                     }
                 }
             }
+
+            SaveAsFile();
 
             FilesCounter.Text = "Total images: " + bitmapPhotosList.Count().ToString();
 
@@ -328,6 +351,7 @@ namespace PhotoAlbum
             {
                 albums.Add(albumName, new List<int>());
                 virtualDirectories.Add(albumName, new List<int>());
+
             }
             catch (ArgumentException)
             {
@@ -518,7 +542,6 @@ namespace PhotoAlbum
 
         private void SaveAsFile()
         {
-
             Dictionary<string, List<int>> albumsToSave = new Dictionary<string, List<int>>();
 
             foreach (var album in albums.Keys)
